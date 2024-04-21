@@ -10,6 +10,7 @@ namespace Lesson1
 {
     internal class BankSimulation
     {
+        //gs
         public List<Person> Client { get; set; } = null;
         public BankSimulation() 
         {
