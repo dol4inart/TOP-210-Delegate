@@ -52,9 +52,15 @@ namespace Lesson1
             var Bank = new LineOfCreditAccount("Artyom");
             Bank.Register(Notification.Notify);
 
-            Bank.MakeDeposit(220m, DateTime.Now, "Partial restoration on repairs");
+            Bank.MakeWithdraw(220m, DateTime.Now, "Partial restoration on repairs");
 
             Bank.MakeDeposit(150m, DateTime.Now, "Partial restoration on repairs");
+
+            Bank.Unregister(Notification.Notify);
+
+            Bank.MakeDeposit(150m, DateTime.Now, "Partial restoration on repairs");
+
+
 
         }
     }
