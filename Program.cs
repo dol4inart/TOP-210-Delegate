@@ -9,7 +9,7 @@ namespace Lesson1
         static void Main(string[] args)
         {
 
-
+            var Notification = new Notificator();
             #region BankAccount
             //BankAccount bankAccount = new BankAccount("Yana", 1000);
             //InterestEarningAccount interestEarningAccount = 
@@ -44,10 +44,17 @@ namespace Lesson1
             //}
             //Console.WriteLine(bankAccount.GetAccountHistory());
             #endregion
-            var BigBank = new BankSimulation();
-            Console.WriteLine(BigBank.GetClientsAccountsHistory());
+            /*var BigBank = new BankSimulation();*/
+            /*Console.WriteLine(BigBank.GetClientsAccountsHistory());
             BigBank.PerformMonthEndTransactions();
-            Console.WriteLine(BigBank.GetClientsAccountsHistory());
+            Console.WriteLine(BigBank.GetClientsAccountsHistory());*/
+
+            var Bank = new LineOfCreditAccount("Artyom");
+            Bank.Register(Notification.Notify);
+
+            Bank.MakeDeposit(220m, DateTime.Now, "Partial restoration on repairs");
+
+            Bank.MakeDeposit(150m, DateTime.Now, "Partial restoration on repairs");
 
         }
     }

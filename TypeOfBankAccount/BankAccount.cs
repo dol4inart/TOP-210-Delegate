@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,12 @@ namespace Lesson1.TypeOfBankAccount
         private readonly decimal _minimumBalance;
         private List<Transaction> _allTransactions = new List<Transaction>();
         /*private Action<string, string, DateTime, decimal, decimal> delegat; //объявление делегата*/
+
+        private Action<string, string, DateTime, decimal, decimal> notificationDelegate;
+        public void Register(Action<string, string, DateTime, decimal, decimal> handler) => notificationDelegate += handler;
+        public void Unregister(Action<string, string, DateTime, decimal, decimal> handler) => notificationDelegate -= handler;
+
+
         // Публичное автоматическое свойство
         // Тип строка имя Number,
         // Можем только получить номер счета, но не можем установить
@@ -66,21 +73,21 @@ namespace Lesson1.TypeOfBankAccount
 
         public void MakeDeposit(decimal amount, DateTime date, string note)
         {
-            var notificationService = new NotificationService();
-            if (amount < 0)
+            
+            if (amount< 0)
                 throw new ArgumentOutOfRangeException
                     (nameof(amount), "Amount of deposit must be positive");
-            var deposit = new Transaction(amount, date, note);
-            _allTransactions.Add(deposit);
+        var deposit = new Transaction(amount, date, note);
+        _allTransactions.Add(deposit);
 
-            notificationService.Notify(Owner, TypeDescriptor.GetClassName(this), date, amount, Balance);
+         //notificationService.Notify(Owner, TypeDescriptor.GetClassName(this), date, amount, Balance);
 
-            //delegat?.Invoke(Owner, TypeDescriptor.GetClassName(this), DateTime.Now, amount, Balance);
-            notificationService.Register(notificationService.Notify);
+        notificationDelegate?.Invoke(Owner, TypeDescriptor.GetClassName(this), DateTime.Now, amount, Balance);
+        //notificationService.Register(notificationService.Notify);
         }
         public void MakeWithdraw(decimal amount, DateTime date, string note)
         {
-            NotificationService notificationService = new NotificationService();
+
             if (amount <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be positive");
@@ -91,12 +98,13 @@ namespace Lesson1.TypeOfBankAccount
             if (overdraftTransaction != null)
                 _allTransactions.Add(overdraftTransaction);
 
-            //notificationService.Notify(Owner, TypeDescriptor.GetClassName(this), date, amount, Balance);
-            notificationService.Register(notificationService.Notify);
+
+            notificationDelegate?.Invoke(Owner, TypeDescriptor.GetClassName(this), DateTime.Now, amount, Balance);
+            
         }
         
 
-        //delegat?.Invoke(Owner, TypeDescriptor.GetClassName(this), DateTime.Now, amount, Balance);
+       
 
 
 
