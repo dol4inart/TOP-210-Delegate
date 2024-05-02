@@ -49,7 +49,7 @@ namespace Lesson1
             BigBank.PerformMonthEndTransactions();
             Console.WriteLine(BigBank.GetClientsAccountsHistory());*/
 
-            var Bank = new LineOfCreditAccount("Artyom");
+            var Bank = new LineOfCreditAccount("Debil");
             Bank.Register(Notification.Notify);
 
             Bank.MakeWithdraw(220m, DateTime.Now, "Partial restoration on repairs");
